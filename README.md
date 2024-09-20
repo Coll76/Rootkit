@@ -1,36 +1,54 @@
 # Rootkit Development Project
 
-## Project Overview
+This project is a foundational exploration into the development of a cohesive rootkit that involves various techniques such as data concealment, detour patching, and IAT hooking. It is currently under development, and contributions or collaborations are welcome to enhance its capabilities.
 
-This project is a rootkit development framework, focusing on implementing and researching various techniques such as data concealment, detour patching, IAT (Import Address Table) hooking, and memory resident operations. The ultimate goal is to develop a **cohesive rootkit** that utilizes these foundations to achieve advanced functionality.
+The project structure is as follows:
 
-While the project is still in development, this repository serves as a collaborative platform where others are encouraged to contribute, provide insights, and participate in the research and development process.
+```
+Rootkit/
+│
+├── include/               # Header files
+│   ├── data_concealment.h
+│   ├── detour_patching.h
+│   ├── iat_hooking.h
+│   ├── memory_resident_rootkit.h
+│
+├── src/                   # Source code files
+│   ├── cohesive_rootkit.c
+│   ├── data_concealment.c
+│   ├── detour_patching.c
+│   ├── iat_hooking.c
+│   ├── memory_resident_rootkit.c
+│
+├── docs/                  # Documentation files
+│   ├── architecture.md
+│   ├── cohesive_rootkit.md
+│   ├── self_healing.md
+│   ├── techniques_overview.md
+│
+├── tests/                 # Unit tests for core functionalities
+│   ├── test_data_concealment.c
+│   ├── test_detour_patching.c
+│   ├── test_iat_hooking.c
+│   ├── test_memory_resident.c
+│
+└── README.md              # This file
+```
 
-## Project Structure
+---
 
-- **src/**
-  - `cohesive_rootkit.c`: This file serves as the core of the rootkit and integrates the techniques developed in the other files. It will consolidate data concealment, detour patching, IAT hooking, and memory-resident functionalities into a single cohesive rootkit.
-  - `data_concealment.c`: Research and foundation for techniques related to concealing data in memory and file systems. These techniques will later be integrated into the cohesive rootkit.
-  - `detour_patching.c`: Explores detour patching mechanisms to alter program flow dynamically. This is a foundational block for the cohesive rootkit.
-  - `iat_hooking.c`: Investigates Import Address Table (IAT) hooking techniques. The research here will be used to enhance the cohesive rootkit.
-  - `memory_resident_rootkit.c`: Implements a basic memory-resident rootkit, showcasing how rootkits can persist in memory without detection.
+## Overview
 
-- **include/**
-  - Header files for each respective `.c` file, providing function prototypes and shared data structures.
+This rootkit project is a comprehensive attempt to implement various kernel-level techniques for stealth and system manipulation. The core file `cohesive_rootkit.c` will eventually integrate multiple techniques:
 
-- **tests/**
-  - Unit tests for each feature under development to ensure stability and correctness as the rootkit evolves:
-    - `test_data_concealment.c`
-    - `test_detour_patching.c`
-    - `test_iat_hooking.c`
-    - `test_memory_resident.c`
+- **Data Concealment (`data_concealment.c`)**: Research and development of techniques to hide data on the system.
+- **Detour Patching (`detour_patching.c`)**: Foundation for manipulating control flow in system processes.
+- **IAT Hooking (`iat_hooking.c`)**: Interception of function calls at the Import Address Table level.
+- **Memory Resident Rootkit (`memory_resident_rootkit.c`)**: Keeps the rootkit resident in memory, allowing continuous operation without leaving traces on disk.
 
-- **docs/**
-  - Documentation and technical write-ups detailing the approaches, methodologies, and research:
-    - `architecture.md`: Explains the architecture and design of the rootkit.
-    - `cohesive_rootkit.md`: Detailed notes on how the cohesive rootkit integrates various techniques.
-    - `self_healing.md`: A document dedicated to research into self-healing mechanisms, allowing the rootkit to evade detection or restore compromised components.
-    - `techniques_overview.md`: General overview of the different techniques explored in this project.
+All the above components are research efforts and foundational building blocks for the complete `cohesive_rootkit.c` file, which will combine these techniques into a fully functional rootkit.
+
+---
 
 ## Installation
 
@@ -51,43 +69,68 @@ To set up the development environment for this project, you will need the follow
 
 2. Set up MinGW and add it to your system's PATH.
 
-3. Use the following commands to compile the project:
+3. Compile the `memory_resident_rootkit.c` file using the following command:
 
    ```bash
-   gcc -o cohesive_rootkit src/cohesive_rootkit.c src/data_concealment.c src/detour_patching.c src/iat_hooking.c src/memory_resident_rootkit.c -Iinclude
+   gcc -o memory_resident_rootkit.exe memory_resident_rootkit.c -lkernel32 -luser32 -lpsapi
    ```
 
-4. Run tests to validate individual components:
+   This command links the necessary libraries:
+   - **kernel32**: For Windows kernel interactions.
+   - **user32**: For Windows user interface components.
+   - **psapi**: For interacting with process information.
 
+4. Run the compiled executable:
    ```bash
-   gcc -o test_data_concealment tests/test_data_concealment.c -Iinclude
-   ./test_data_concealment
+   ./memory_resident_rootkit.exe
    ```
+
+5. As the project progresses, additional `.c` files such as `data_concealment.c`, `detour_patching.c`, and `iat_hooking.c` will be compiled and linked similarly to integrate their functionalities into the cohesive rootkit.
+
+---
+
+## Project Components
+
+### 1. **Cohesive Rootkit (`cohesive_rootkit.c`)**
+This is the main file that will integrate the techniques from `data_concealment.c`, `detour_patching.c`, and `iat_hooking.c`. The goal is to create a memory-resident rootkit that incorporates these tactics in a stealthy and effective manner.
+
+### 2. **Data Concealment (`data_concealment.c`)**
+This module focuses on methods to hide files, processes, or registry entries from the operating system. It will serve as a key component for ensuring stealth.
+
+### 3. **Detour Patching (`detour_patching.c`)**
+This module provides the foundation for detouring or hijacking function calls. It will allow for interception and manipulation of system calls or user-mode function calls.
+
+### 4. **IAT Hooking (`iat_hooking.c`)**
+The Import Address Table Hooking file will be the foundation for intercepting Windows API calls by modifying entries in the IAT of loaded executables.
+
+### 5. **Memory Resident Rootkit (`memory_resident_rootkit.c`)**
+This is a proof of concept for making the rootkit persist in memory, avoiding disk writes that could be detected by security software.
+
+---
+
+## Documentation
+
+For detailed information on the techniques used and architectural considerations, refer to the documentation files in the `docs/` directory:
+
+- **architecture.md**: Overview of the rootkit's architectural design.
+- **cohesive_rootkit.md**: Explanation of the components of the cohesive rootkit.
+- **self_healing.md**: Techniques and mechanisms for ensuring rootkit persistence even after attempts at removal.
+- **techniques_overview.md**: Overview of the various attack and stealth techniques used.
+
+---
+
+## Testing
+
+Unit tests for each module are provided in the `tests/` directory. These files (`test_data_concealment.c`, `test_detour_patching.c`, etc.) are designed to test the functionality and effectiveness of each component in isolation.
+
+---
 
 ## Contributing
 
-This project is in its early stages and is primarily research-based. Contributions in the form of code, research, or suggestions are welcome! Please follow these guidelines for contributions:
+We welcome contributions from the community! If you're interested in collaborating, feel free to fork this repository, make your changes, and open a pull request. Whether it's bug fixes, optimization, or extending the functionality, all contributions are welcome.
 
-1. Fork the repository and create your branch from `main`.
-2. Ensure any new code is covered with unit tests where applicable.
-3. Document any new features or modifications in the `docs/` folder.
-4. Submit a pull request, and ensure you provide enough information in the description for reviewers.
-
-## Roadmap
-
-- **Research & Development Phase**:  
-  - Continue building foundational modules such as data concealment, detour patching, IAT hooking, and memory-resident functionalities.
-  - Integrate these techniques into a cohesive rootkit.
-  
-- **Testing and Stability**:  
-  - Build out comprehensive unit tests for each feature.
-  - Test on various Windows versions and architectures.
-
-- **Self-Healing Mechanism**:  
-  - Develop mechanisms to allow the rootkit to repair itself if detected or disabled.
+---
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-
